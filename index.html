@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>House Price Predictor</title>
+    <style type="text/css">
+      body{
+        background-repeat : no-repeat;
+        background-size : cover;
+        background-image : url({{url_for('static' , filename = "1200x0.jpg")}})
+
+        }
+    </style>
+    <link rel="stylesheet" href="D:\New folder\Great lakes\capstone\deployment\static\css\style.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+  </head>
+  <body class="html">
+  <div class="container h-100">
+      <div class ="row align-items-center h-100">
+        <div class ="card mt-50" style="width : 90% ; height : 100% " >
+          <div class="card-header">
+            <div class = "col-12" style = "text-align : center">
+
+              <h1> Seattle House Price Predictor by Koshy </h1>
+
+            </div>
+
+          </div>
+          <div class = "card-body">
+            <form method="post" accept-charset="utf-8" name="Model form">
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>Number of floors :</b> </label>
+                <input type="text" class = "form-control" id="floor_numbers" name="floor_numbers" placeholder="Enter number of floors" required="1">
+
+              </div>
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>Total area of house (sq foot):</b> </label>
+                <input type="text" class = "form-control" id="house_area" name="house_area" placeholder="Enter house area" required="1">
+
+              </div>
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>How old should be the house:</b> </label>
+                <input type="text" class = "form-control" id="house_age" name="house_age" placeholder="Enter house age" required="1">
+
+              </div>
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>house should be renovate?(enter 1 for Yes ,0 for No):</b> </label>
+                <input type="text" class = "form-control" id="renovated" name="renovated" placeholder="Enter 1 or 0" required="1">
+
+              </div>
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>Number of Bathrooms needed:</b> </label>
+                <input type="text" class = "form-control" id="bathrooms" name="bathrooms" placeholder="Enter number of bathrooms" required="1">
+
+              </div>
+              <div class = 'col-10 form-group' style="text-align : center">
+                <label><b>Should the location be coastline/sea facing(enter 1 for Yes , 0 for No :</b> </label>
+                <input type="text" class = "form-control" id="coastline" name="coastline" placeholder="Enter 1 or 0" required="1">
+
+              </div>
+
+              <div class = 'col-10 form-group' style="text-align : center">
+                <button class="btn btn-primary form-control" onclick="send_data()">Predict price</button>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-12" style="text_align : center" >
+                  <h3><span id="prediction"></span></h3>
+
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      function form_handler(event){
+
+      event.preventDefault();
+
+      }
+
+      function send_data()
+      {
+        document.querySelector('form').addEventListener("submit", form_handler);
+
+        var fd = new FormData(document.querySelector('form'));
+        var xhr = new XMLHttpRequest({mozSystem: true});
+
+
+        xhr.open('POST' , '/predict' , true);
+        document.getElementById('prediction').innerHTML = "Predicting Price.....";
+        xhr.onreadystatechange = function(){
+
+          if (xhr.readyState == XMLHttpRequest.DONE){
+              document.getElementById('prediction').innerHTML = "Prediction : $" + xhr.responseText;
+          }
+        };
+        xhr.onload = function(){};
+
+        xhr.send(fd);
+
+
+
+      }
+
+    </script>
+
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
